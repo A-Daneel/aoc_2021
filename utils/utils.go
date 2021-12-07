@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"log"
 	"os"
-	"strconv"
 )
 
 func ReadDataToArray(file string) ([]string, error) {
@@ -21,10 +20,11 @@ func ReadDataToArray(file string) ([]string, error) {
 	return values, scanner.Err()
 }
 
-func StringToInt(value string) (val int) {
-    val, err := strconv.Atoi(value)
-    if err != nil {
-        log.Fatal(err)
+func StringToInt(s string) int {
+    i := 0
+    for _, ch := range s {
+        i *= 10
+        i += int(ch) - 0x30
     }
-    return
+    return i
 }
