@@ -11,3 +11,11 @@ func TestPart1(t * testing.T) {
 	}
 }
 
+func TestPart2(t * testing.T) {
+	got := Part2("day4.test")
+	want := 1924
+
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}

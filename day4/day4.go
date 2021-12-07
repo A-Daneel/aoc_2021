@@ -25,8 +25,34 @@ func Part1(file string) int {
 
 
 func Part2(file string) int {
+    lines, _ := utils.ReadDataToArray(file)
+    bingoNumbers, tickets := CreateBingoSet(lines)
+    lastFountWinningScore := 0
+    wonTickets := make([]bool, len(tickets))
+    for n := 0; n < len(bingoNumbers); n++ {
+        tickets = SignCards(tickets, bingoNumbers[n])
+        spaces := regexp.MustCompile(`\s+`)
+        for ticketNumber, ticket := range tickets { 
+            if wonTickets[ticketNumber] {
+                continue
+            }
+            table := spaces.Split(ticket, -1) 
+            for i := 0; i < 5; i++ {
+                horizontalLine := ""
+                verticalLine := ""
+                for j := 0; j < 5; j++ {
+                    horizontalLine += table[i * 5 + j] // normal 2d array access (in 1d array)
+                    verticalLine += table[j * 5 + i] // transposed 2d array access
+                }
+                if horizontalLine == "xxxxx" || verticalLine == "xxxxx" {
+                    lastFountWinningScore = utils.StringToInt(bingoNumbers[n]) * CalculateTicket(ticket)
+                    wonTickets[ticketNumber] = true
+                }
+            }
+        }
+    }
 
-    return 0x09
+    return lastFountWinningScore
 }
 
 func CalculateTicket(goldenTicket string) int {
@@ -58,6 +84,25 @@ func CheckWinner(tickets []string) (bool, string) {
         }
     }
     return false, ""
+}
+
+func CheckLoser(tickets []string) (bool, int8) {
+    spaces := regexp.MustCompile(`\s+`)
+    for ticketNumber, ticket := range tickets { 
+        table := spaces.Split(ticket, -1) 
+        for i := 0; i < 5; i++ {
+            horizontalLine := ""
+            verticalLine := ""
+            for j := 0; j < 5; j++ {
+                horizontalLine += table[i * 5 + j] // normal 2d array access (in 1d array)
+                verticalLine += table[j * 5 + i] // transposed 2d array access
+            }
+            if horizontalLine == "xxxxx" || verticalLine == "xxxxx" {
+                return true, int8(ticketNumber)
+            }
+        }
+    }
+    return false, 0
 }
 
 func SignCards(tickets []string, drawnNumber string) []string {
