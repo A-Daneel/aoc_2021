@@ -3,6 +3,7 @@ package day5
 import (
 	"aoc_2021/utils"
 	"fmt"
+	"math"
 )
 
 type operation struct {
@@ -12,7 +13,7 @@ type operation struct {
     y2 int
 }
 
-func CreateOperations(lines []string) ([]operation, int, int) { 
+func CreateOperations(lines []string) ([]operation, []operation, int, int) { 
     operations := make([]operation, len(lines)) 
     validOperations := make([]operation, 0)
     maxX := 0
@@ -40,7 +41,7 @@ func CreateOperations(lines []string) ([]operation, int, int) {
             validOperations = append(validOperations, operations[i])
         }
     }
-    return validOperations, maxX+1, maxY+1
+    return operations, validOperations, maxX+1, maxY+1
 }
 
 func CountHeatmap(ventMap [][]int) int {
@@ -55,7 +56,7 @@ func CountHeatmap(ventMap [][]int) int {
     return count
 }
 
-func SignHorizonalAndVertical(ventMap[][]int, op []operation) [][]int {
+func SignHorizonalAndVertical(ventMap[][]int, op []operation, considerDiagonal bool) [][]int {
     for _, l := range op {
         if l.x1 == l.x2 {
             y1 := l.y1
@@ -67,7 +68,7 @@ func SignHorizonalAndVertical(ventMap[][]int, op []operation) [][]int {
             for y := y1; y <= y2; y++ {
                 ventMap[l.x1][y]++
             }
-        } else {
+        } else if l.y1 == l.y2{
             x1 := l.x1
             x2 := l.x2
             if x2 < x1 {
@@ -77,6 +78,19 @@ func SignHorizonalAndVertical(ventMap[][]int, op []operation) [][]int {
             for x := x1; x <= x2; x++ {
                 ventMap[x][l.y1]++
             }
+        } else {
+            if !considerDiagonal { continue } 
+            fmt.Println("help")
+            deltaX := int(float64(l.x2-l.x1)/ math.Abs(float64(l.x2-l.x1)))
+            deltaY := int(float64(l.y2-l.y1)/ math.Abs(float64(l.y2-l.y1)))
+            x := l.x1
+            y := l.y1
+
+            for y != l.y2+deltaY {
+                ventMap[x][y]++
+                x += deltaX
+                y += deltaY
+            }
         }
     }
     return ventMap
@@ -84,17 +98,26 @@ func SignHorizonalAndVertical(ventMap[][]int, op []operation) [][]int {
 
 func Part1(file string) int {
     lines, _ := utils.ReadDataToArray(file)
-    operations, maxX, maxY := CreateOperations(lines)
+    _, operations, maxX, maxY := CreateOperations(lines)
     ventMap := make([][]int, maxY)
     for i := 0; i < maxY; i++ {
         ventMap[i] = make([]int, maxX)
     }
     
-    ventMap = SignHorizonalAndVertical(ventMap, operations)
+    ventMap = SignHorizonalAndVertical(ventMap, operations, false)
     count := CountHeatmap(ventMap)
     return count
 }
 
 func Part2(file string) int {
-    return 0x09
+    lines, _ := utils.ReadDataToArray(file)
+    operations, _, maxX, maxY := CreateOperations(lines)
+    ventMap := make([][]int, maxY)
+    for i := 0; i < maxY; i++ {
+        ventMap[i] = make([]int, maxX)
+    }
+    
+    ventMap = SignHorizonalAndVertical(ventMap, operations, true)
+    count := CountHeatmap(ventMap)
+    return count
 }

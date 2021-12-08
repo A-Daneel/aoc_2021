@@ -28,4 +28,5 @@ func main() {
 
     fmt.Print("\nday 5\n")
 	fmt.Printf("result from part 1: %d\n", day5.Part1("day5/day5.real"))
+	fmt.Printf("result from part 1: %d\n", day5.Part2("day5/day5.real"))
 }
