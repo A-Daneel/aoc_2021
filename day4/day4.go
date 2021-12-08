@@ -6,9 +6,6 @@ import (
 	"strings"
 )
 
-
-
-
 func Part1(file string) int {
     lines, _ := utils.ReadDataToArray(file)
     bingoNumbers, tickets := CreateBingoSet(lines)
@@ -22,7 +19,6 @@ func Part1(file string) int {
 
     return 0x09
 }
-
 
 func Part2(file string) int {
     lines, _ := utils.ReadDataToArray(file)
