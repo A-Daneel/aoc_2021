@@ -80,7 +80,6 @@ func SignHorizonalAndVertical(ventMap[][]int, op []operation, considerDiagonal b
             }
         } else {
             if !considerDiagonal { continue } 
-            fmt.Println("help")
             deltaX := int(float64(l.x2-l.x1)/ math.Abs(float64(l.x2-l.x1)))
             deltaY := int(float64(l.y2-l.y1)/ math.Abs(float64(l.y2-l.y1)))
             x := l.x1

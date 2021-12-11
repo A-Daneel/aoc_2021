@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"strings"
 )
 
 func ReadDataToArray(file string) ([]string, error) {
@@ -18,6 +19,17 @@ func ReadDataToArray(file string) ([]string, error) {
 		values = append(values, val)
 	}
 	return values, scanner.Err()
+}
+
+func ReadStringArrayToIntArray(input string) ([]int) {
+    stringArray := strings.Split(input, ",")
+    returnArray := make([]int, 0)
+
+    for _, number := range stringArray {
+        returnArray = append(returnArray, StringToInt(number))
+    }
+
+    return returnArray
 }
 
 func StringToInt(s string) int {
