@@ -8,6 +8,7 @@ import (
 	"aoc_2021/day5"
 	"aoc_2021/day6"
 	"aoc_2021/day7"
+	"aoc_2021/day8"
 	"fmt"
 )
 
@@ -39,4 +40,7 @@ func main() {
     fmt.Print("\nday 7\n")
 	fmt.Printf("result from part 1: %d\n", day7.Part1("day7/day7.real"))
 	fmt.Printf("result from part 2: %d\n", day7.Part2("day7/day7.real"))
+
+    fmt.Print("\nday 8\n")
+	fmt.Printf("result from part 1: %d\n", day8.Part1("day8/day8.real"))
 }
