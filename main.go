@@ -43,4 +43,5 @@ func main() {
 
     fmt.Print("\nday 8\n")
 	fmt.Printf("result from part 1: %d\n", day8.Part1("day8/day8.real"))
+	fmt.Printf("result from part 2: %d\n", day8.Part2("day8/day8.real"))
 }
