@@ -60,6 +60,7 @@ func deduceNumbers(line []string) map[string]int {
         }
     }
 
+    //find 0
     for i, d := range length6 {
         for j := range four {
             if !strings.Contains(d, string(four[j])) {
@@ -71,8 +72,17 @@ func deduceNumbers(line []string) map[string]int {
     }
 
     // last one is 9
-    returnMap[length6[0]] = 9
+    for i, d := range length6 {
+        for j := range four {
+            if strings.Contains(d, string(four[j])) {
+                returnMap[d] = 9
+                length6 = append(length6[:i], length6[i+1:]...)
+                break
+            }
+        }
+    }
 
+    //find 3
     for i, d := range length5 {
         if strings.Contains(d, string(one[0])) &&
         strings.Contains(d, string(one[1])) {
@@ -82,6 +92,7 @@ func deduceNumbers(line []string) map[string]int {
         }
     }
 
+    //find 5
     for i, d := range length5 {
         if strings.Contains(six, string(d[0])) &&
         strings.Contains(six, string(d[1])) &&
@@ -94,6 +105,8 @@ func deduceNumbers(line []string) map[string]int {
         }
     }
 
+    // last one is 2
+    // for fun, maybe try another better way?
     returnMap[length5[0]] = 2
 
     return returnMap
@@ -113,6 +126,7 @@ func Part2(file string) int {
         right := strings.Split(lineArray[1], " ")
         
         output := deduceNumbers(strings.Split(lineArray[0], " "))
+
         asDigits := output[normalize(right[0])]* 1000 +
         output[normalize(right[1])]* 100 +
         output[normalize(right[2])]* 10 +
